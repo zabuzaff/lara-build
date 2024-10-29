@@ -75,20 +75,20 @@
                                                 </td>
                                                 <td>
                                                     <div class="form-check ms-5">
-                                                        <input class="form-check-input model" type="checkbox" value="model"
+                                                        <input class="form-check-input model" type="checkbox"
                                                             id="model-{{ $data }}">
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="form-check ms-5">
-                                                        <input class="form-check-input view" type="checkbox" value="view"
+                                                        <input class="form-check-input view" type="checkbox"
                                                             id="view-{{ $data }}">
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="form-check ms-5">
                                                         <input class="form-check-input controller" type="checkbox"
-                                                            value="controller" id="controller-{{ $data }}">
+                                                            id="controller-{{ $data }}">
                                                     </div>
                                                 </td>
                                                 <td class="align-middle text-end">
@@ -166,10 +166,12 @@
                             body: JSON.stringify({
                                 _token: "{{ csrf_token() }}",
                                 table,
-                                show: ($(`#show-${table}`).is(':checked')) ? $(
-                                    `#show-${table}`).val() : null,
-                                edit: ($(`#edit-${table}`).is(':checked')) ? $(
-                                    `#edit-${table}`).val() : null,
+                                model: ($(`#model-${table}`).is(':checked')) ? $(
+                                    `#model-${table}`).val() : null,
+                                view: ($(`#view-${table}`).is(':checked')) ? $(
+                                    `#view-${table}`).val() : null,
+                                controller: ($(`#controller-${table}`).is(':checked')) ? $(
+                                    `#controller-${table}`).val() : null,
                             })
                         })
                         .then(response => {

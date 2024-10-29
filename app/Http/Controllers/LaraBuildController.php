@@ -30,14 +30,22 @@ class LaraBuildController extends Controller
 
     public function generate(Request $request)
     {
-        $this->generateModel($request->table);
-        $this->generateController($request->table);
-        $this->configureRoute($request->table);
-        $this->generateManage($request->table);
-        $this->generateCreate($request->table);
-        $this->generateEdit($request->table);
-        $this->generateShow($request->table);
-        $this->generateSidenav($request->table);
+        if ($request->model == 'on') {
+            $this->generateModel($request->table);
+        }
+
+        if ($request->view == 'on') {
+            $this->generateManage($request->table);
+            $this->generateCreate($request->table);
+            $this->generateEdit($request->table);
+            $this->generateShow($request->table);
+            $this->generateSidenav($request->table);
+        }
+
+        if ($request->controller == 'on') {
+            $this->generateController($request->table);
+            $this->configureRoute($request->table);
+        }
 
         return response()->json(['success' => true]);
     }

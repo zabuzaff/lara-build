@@ -81,7 +81,7 @@ foreach ($data->columns as $column) {
         echo "                                        <select class=\"form-select\" name=\"$column->name\">\n";
         echo "                                            <option selected>Open this select menu</option>\n";
         echo "                                            @foreach (\$" . Str::kebab(Str::plural($column->additional)) . " as \$" . Str::kebab(Str::singular($column->additional)) . ")\n";
-        echo "                                                <option @if(\$data->$column->name == \$" . Str::kebab(Str::singular($column->additional)) . "->id) selected @endif value=\"{{ \$" . Str::studly(Str::singular($column->additional)) . "->id }}\">{{ \$" . Str::studly(Str::singular($column->additional)) . "->name }}</option>\n";
+        echo "                                                <option @if(\$data->$column->name == \$" . Str::kebab(Str::singular($column->additional)) . "->id) selected @endif value=\"{{ \$" . Str::kebab(Str::singular($column->additional)) . "->id }}\">{{ \$" . Str::kebab(Str::singular($column->additional)) . "->name }}</option>\n";
         echo "                                            @endforeach\n";
         echo "                                        </select>\n";
         echo "                                    </div>\n";
