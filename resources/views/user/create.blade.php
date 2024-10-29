@@ -15,21 +15,22 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">User Name <span
+                                        <label for="example-text-input" class="form-control-label">Name <span
                                                 class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" name="name">
+                                        <input class="form-control" type="text" name="name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">User Email <span
+                                        <label for="example-text-input" class="form-control-label">Email <span
                                                 class="text-danger">*</span></label>
-                                        <input class="form-control" type="email" name="email">
+                                        <input class="form-control" type="email" name="email" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="text-end mt-2">
-                                <button type="button" onclick="history.back()" class="btn btn-secondary btn-md ms-auto">Back</button>
+                                <button type="button" onclick="history.back()"
+                                    class="btn btn-secondary btn-md ms-auto">Back</button>
                                 <button type="submit" class="btn btn-success btn-md ms-auto">Save</button>
                             </div>
                         </form>

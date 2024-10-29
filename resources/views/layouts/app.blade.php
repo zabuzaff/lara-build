@@ -7,25 +7,25 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-icon.png">
     <link rel="icon" type="image/png" href="/img/logo-ct-dark.png">
     <title>
-        Argon Free Template
+        LaraBuild
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
-    <link href="{{ env('APP_URL') . '/assets/css/nucleo-icons.css' }}" rel="stylesheet" />
-    <link href="{{ env('APP_URL') . '/assets/css/nucleo-svg.css' }}" rel="stylesheet" />
+    <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link href="{{ env('APP_URL') . '/assets/css/nucleo-svg.css' }}" rel="stylesheet" />
+    <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
-    <link id="pagestyle" href="{{ env('APP_URL') . '/assets/css/argon-dashboard.css' }}" rel="stylesheet" />
+    <link id="pagestyle" href="/assets/css/argon-dashboard.css" rel="stylesheet" />
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <!-- Swal -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- flatpickr -->
-    <script src="{{ env('APP_URL') . '/assets/js/plugins/flatpickr.min.js' }}"></script>
-    <link href="{{ env('APP_URL') . '/assets/css/flatpickr.min.css' }}" rel="stylesheet" />
+    <script src="/assets/js/plugins/flatpickr.min.js"></script>
+    <link href="/assets/css/flatpickr.min.css" rel="stylesheet" />
 
 </head>
 
@@ -60,10 +60,10 @@
     @endauth
 
     <!--   Core JS Files   -->
-    <script src="{{ env('APP_URL') . '/assets/js/core/popper.min.js' }}"></script>
-    <script src="{{ env('APP_URL') . '/assets/js/core/bootstrap.min.js' }}"></script>
-    <script src="{{ env('APP_URL') . '/assets/js/plugins/perfect-scrollbar.min.js' }}"></script>
-    <script src="{{ env('APP_URL') . '/assets/js/plugins/smooth-scrollbar.min.js' }}"></script>
+    <script src="/assets/js/core/popper.min.js"></script>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -76,7 +76,7 @@
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="{{ env('APP_URL') . '/assets/js/argon-dashboard.js' }}"></script>
+    <script src="/assets/js/argon-dashboard.js"></script>
     <script>
         $(".flatpickr").flatpickr({
             allowInput: true

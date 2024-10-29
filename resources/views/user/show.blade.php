@@ -13,16 +13,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Name <span
-                                            class="text-danger">*</span></label>
-                                    <p>{{ $data['name'] }}</p>
+                                    <label for="example-text-input" class="form-control-label">Name</label>
+                                    <p class="ms-1">{{ $data['name'] }}</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Email <span
-                                            class="text-danger">*</span></label>
-                                    <p>{{ $data['email'] }}</p>
+                                    <label for="example-text-input" class="form-control-label">Email</label>
+                                    <p class="ms-1">{{ $data['email'] }}</p>
                                 </div>
                             </div>
                         </div>

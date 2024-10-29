@@ -20,7 +20,7 @@
                                         <label for="example-text-input" class="form-control-label">Name <span
                                                 class="text-danger">*</span></label>
                                         <input class="form-control" type="text" name="name"
-                                            value="{{ $data['name'] }}">
+                                            value="{{ $data['name'] }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -28,12 +28,12 @@
                                         <label for="example-text-input" class="form-control-label">Email <span
                                                 class="text-danger">*</span></label>
                                         <input class="form-control" type="email" name="email"
-                                            value="{{ $data['email'] }}">
+                                            value="{{ $data['email'] }}" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="text-end mt-2">
-                                <a href="{{ route('user.index') }}" class="btn btn-danger btn-md">Back</a>
+                                <a href="{{ route('user.index') }}" class="btn btn-secondary btn-md">Back</a>
                                 <button type="submit" class="btn btn-success btn-md ms-auto">Save</button>
                             </div>
                         </form>

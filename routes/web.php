@@ -45,5 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resources([
         'user' => UserController::class,
+        //start-generated-resources
+        //end-generated-resources
     ]);
 });

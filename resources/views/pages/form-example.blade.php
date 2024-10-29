@@ -212,12 +212,5 @@
 
 @push('js')
     <script>
-        $(".flatpickr").flatpickr();
-
-        $("#time").flatpickr({
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-        });
     </script>
 @endpush

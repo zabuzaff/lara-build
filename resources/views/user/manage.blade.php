@@ -12,7 +12,7 @@
                 @endif
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between mb-3">
-                        <h6>User List</h6>
+                        <h6>Manage Users</h6>
                         <a href="{{ route('user.create') }}" class="btn btn-success btn-sm float-end mb-0">Add
                             User</a>
                     </div>
@@ -25,11 +25,11 @@
                                         </th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            User Name
+                                            Name
                                         </th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            User Email
+                                            Email
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
