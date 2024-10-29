@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/generate-crud', [LaraBuildController::class, 'generateCrud'])->name('generate-crud');
     Route::post('/generate', [LaraBuildController::class, 'generate'])->name('lara-build.generate');
+    Route::post('/bulk-generate', [LaraBuildController::class, 'bulkGenerate'])->name('lara-build.bulk-generate');
     Route::post('/lara-migration/generate', [LaraMigrationController::class, 'generate'])->name('lara-migration.generate');
 
     Route::resources([

@@ -13,6 +13,9 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between mb-3">
                         <h6>Generate CRUD</h6>
+                        <a href="#"
+                            onclick="bulkGenerate('{{ route('lara-build.bulk-generate') }}')"
+                            class="btn btn-primary btn-sm float-end mb-0">Bulk Generate</a>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -172,6 +175,71 @@
                                     `#view-${table}`).val() : null,
                                 controller: ($(`#controller-${table}`).is(':checked')) ? $(
                                     `#controller-${table}`).val() : null,
+                            })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText)
+                            }
+                            return response.json()
+                        })
+                        .catch(error => {
+                            Swal.showValidationMessage(
+                                `Request failed: ${error}`
+                            )
+                        })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Generating!',
+                        'The table CRUD is being generated.',
+                        'success'
+                    )
+                    Swal.showLoading();
+                    setTimeout(() => {
+                        Swal.close();
+                        document.location.reload();
+                    }, 5000);
+                }
+            })
+        }
+
+        function bulkGenerate(url) {
+            const datas = [];
+            $('tbody tr').each(function () {
+                const tableName = $(this).find('td:nth-child(2) p').text().trim();
+                const model = $(this).find('.model').is(':checked') ? 'on' : null;
+                const view = $(this).find('.view').is(':checked') ? 'on' : null;
+                const controller = $(this).find('.controller').is(':checked') ? 'on' : null;
+
+                datas.push({
+                    table: tableName,
+                    model: model,
+                    view: view,
+                    controller: controller
+                });
+            });
+
+            Swal.fire({
+                title: 'Generate multiple table CRUD?',
+                text: "You will have to regenerate these table CRUD if new changes are made.",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#000080',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, generate it!',
+                preConfirm: (input) => {
+                    return fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                _token: "{{ csrf_token() }}",
+                                datas,
                             })
                         })
                         .then(response => {

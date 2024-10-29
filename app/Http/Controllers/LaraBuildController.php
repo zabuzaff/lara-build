@@ -28,6 +28,16 @@ class LaraBuildController extends Controller
         return view('lara-build.generate-crud', compact('datas'));
     }
 
+    public function bulkGenerate(Request $request) {
+        foreach ($request->datas as $data) {
+            $configs = new Request();
+            $configs->merge($data);
+            $this->generate($configs);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
     public function generate(Request $request)
     {
         if ($request->model == 'on') {
