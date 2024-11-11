@@ -13,8 +13,14 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between mb-3">
                         <h6>Manage Migrations</h6>
-                        <a href="{{ route('lara-migration.create') }}" class="btn btn-success btn-sm float-end mb-0">Create
-                            Migration</a>
+                        <div>
+                            <a href="{{ route('lara-migration.create') }}"
+                                class="btn btn-success btn-sm float-end mb-0 ms-2">Create
+                                Migration</a>
+                            <a href="#" onclick="migrate('{{ route('lara-migration.migrate') }}')"
+                                class="btn btn-primary btn-sm float-end mb-0">Run
+                                Migration</a>
+                        </div>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -196,6 +202,53 @@
                     Swal.fire(
                         'Generated!',
                         'The migration has been generated.',
+                        'success'
+                    )
+                    setTimeout(() => {
+                        document.location.reload();
+                    }, 2000);
+                }
+            })
+        }
+
+        function migrate(url) {
+            Swal.fire({
+                title: 'Run migration?',
+                text: "This action will run migrate:fresh command on your database.",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#000080',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, migrate it!',
+                preConfirm: (input) => {
+                    return fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                _token: "{{ csrf_token() }}"
+                            })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText)
+                            }
+                            return response.json()
+                        })
+                        .catch(error => {
+                            Swal.showValidationMessage(
+                                `Request failed: ${error}`
+                            )
+                        })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Migrated!',
+                        'The migration has been completed.',
                         'success'
                     )
                     setTimeout(() => {

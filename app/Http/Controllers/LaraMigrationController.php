@@ -6,6 +6,7 @@ use App\Models\LaraMigration;
 use App\Models\LaraMigrationColumn;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
 class LaraMigrationController extends Controller
@@ -98,6 +99,12 @@ class LaraMigrationController extends Controller
 
         $data->update(['generated_at' => now()]);
 
+        return response()->json(['success' => true]);
+    }
+
+    public function migrate()
+    {
+        Artisan::call('migrate:fresh-exclude');
         return response()->json(['success' => true]);
     }
 }

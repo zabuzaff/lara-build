@@ -64,14 +64,14 @@ foreach ($data->columns as $column) {
         echo '                                <div class="col-md-6">' . PHP_EOL;
         echo '                                    <div class="form-group">' . PHP_EOL;
         echo '                                        <label for="example-text-input" class="form-control-label">' . $column->name . ' <span class="text-danger">*</span></label>' . PHP_EOL;
-        echo '                                        <input class="form-control flatpickr" placeholder="Please select date" type="text">' . PHP_EOL;
+        echo '                                        <input class="form-control flatpickr" placeholder="Please select date" name="' . $column->name . '" type="text">' . PHP_EOL;
         echo '                                    </div>' . PHP_EOL;
         echo '                                </div>' . PHP_EOL;
     } elseif ($column->type == 'time') {
         echo '                                <div class="col-md-6">' . PHP_EOL;
         echo '                                    <div class="form-group">' . PHP_EOL;
         echo '                                        <label for="example-text-input" class="form-control-label">' . $column->name . ' <span class="text-danger">*</span></label>' . PHP_EOL;
-        echo '                                        <input class="form-control time-flatpickr" placeholder="Please select time" type="text">' . PHP_EOL;
+        echo '                                        <input class="form-control time-flatpickr" placeholder="Please select time" name="' . $column->name . '" type="text">' . PHP_EOL;
         echo '                                    </div>' . PHP_EOL;
         echo '                                </div>' . PHP_EOL;
     } elseif ($column->type == 'foreign') {

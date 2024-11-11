@@ -107,7 +107,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="5" class="align-middle text-center">
+                                            <td colspan="6" class="align-middle text-center">
                                                 <p class="text-sm font-weight-bold mb-0">There is no tables migrated.
                                                 </p>
                                             </td>

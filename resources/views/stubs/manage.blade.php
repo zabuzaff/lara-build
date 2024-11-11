@@ -56,7 +56,7 @@ echo '                                            </tr>' . PHP_EOL;
 echo '                                        @endforeach' . PHP_EOL;
 echo '                                    @else' . PHP_EOL;
 echo '                                        <tr>' . PHP_EOL;
-echo '                                            <td colspan="7" class="align-middle text-center">' . PHP_EOL;
+echo '                                            <td colspan="' . $data->columns->take(5)->count() + 2 .'" class="align-middle text-center">' . PHP_EOL;
 echo '                                                <p class="text-sm font-weight-bold mb-0">There is no ' . Str::singular($data->table_name) . ' available.</p>' . PHP_EOL;
 echo '                                            </td>' . PHP_EOL;
 echo '                                        </tr>' . PHP_EOL;

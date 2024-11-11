@@ -64,14 +64,14 @@ foreach ($data->columns as $column) {
         echo "                                <div class=\"col-md-6\">\n";
         echo "                                    <div class=\"form-group\">\n";
         echo "                                        <label for=\"example-text-input\" class=\"form-control-label\">$column->name <span class=\"text-danger\">*</span></label>\n";
-        echo "                                        <input class=\"form-control flatpickr\" placeholder=\"Please select date\" type=\"text\" value=\"{{ \$data->$column->name }}\">\n";
+        echo "                                        <input class=\"form-control flatpickr\" placeholder=\"Please select date\" name=\"$column->name\" type=\"text\" value=\"{{ \$data->$column->name }}\">\n";
         echo "                                    </div>\n";
         echo "                                </div>\n";
     } elseif ($column->type == 'time') {
         echo "                                <div class=\"col-md-6\">\n";
         echo "                                    <div class=\"form-group\">\n";
         echo "                                        <label for=\"example-text-input\" class=\"form-control-label\">$column->name <span class=\"text-danger\">*</span></label>\n";
-        echo "                                        <input class=\"form-control time-flatpickr\" placeholder=\"Please select time\" type=\"text\" value=\"{{ \$data->$column->name }}\">\n";
+        echo "                                        <input class=\"form-control time-flatpickr\" placeholder=\"Please select time\" name=\"$column->name\" type=\"text\" value=\"{{ \$data->$column->name }}\">\n";
         echo "                                    </div>\n";
         echo "                                </div>\n";
     } elseif ($column->type == 'foreign') {
