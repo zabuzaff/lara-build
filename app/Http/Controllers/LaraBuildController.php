@@ -22,7 +22,7 @@ class LaraBuildController extends Controller
             'users'
         ];
 
-        $tableNames = array_map(fn($table) => $table->{"Tables_in_post_test"}, Schema::getAllTables());
+        $tableNames = array_map(fn($table) => $table->{"Tables_in_" . env('DB_DATABASE')}, Schema::getAllTables());
         $datas = array_filter($tableNames, fn($tableName) => !in_array($tableName, $excludedTables));
 
         return view('lara-build.generate-crud', compact('datas'));
