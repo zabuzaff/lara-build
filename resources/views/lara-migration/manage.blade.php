@@ -12,7 +12,7 @@
                 @endif
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between mb-3">
-                        <h6>Manage Migrations</h6>
+                        <h6>Manage Migration</h6>
                         <div>
                             <a href="{{ route('lara-migration.create') }}"
                                 class="btn btn-success btn-sm float-end mb-0 ms-2">Create

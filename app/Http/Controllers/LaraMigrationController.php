@@ -45,8 +45,9 @@ class LaraMigrationController extends Controller
     public function edit($id)
     {
         $data = LaraMigration::with('columns')->findOrFail($id);
+        $existingMigrations = LaraMigration::all();
 
-        return view('lara-migration.edit', compact('data'));
+        return view('lara-migration.edit', compact('data', 'existingMigrations'));
     }
 
     public function update(Request $request, $id)

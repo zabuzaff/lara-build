@@ -74,6 +74,7 @@
                                                 <span class="text-danger">*</span></label>
                                             <select class="form-select" name="column[0][additional_foreign]">
                                                 <option value="">Select Foreign Table</option>
+                                                <option value="users">users</option>
                                                 @foreach ($existingMigrations as $migration)
                                                     <option value="{{ $migration->table_name }}">
                                                         {{ $migration->table_name }}</option>

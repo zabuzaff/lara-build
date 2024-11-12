@@ -45,7 +45,7 @@
                                             <div class="form-group">
                                                 <label for="example-text-input" class="form-control-label">Column Type <span
                                                         class="text-danger">*</span></label>
-                                                <select class="form-select" required
+                                                <select class="form-select column-type" required
                                                     name="column[{{ $key }}][type]"
                                                     onchange="displayAdditional(this, {{ $key }})">
                                                     <option>Select Column Type</option>
@@ -75,13 +75,15 @@
                                                 <br>
                                                 <div class="form-check mb-3 form-check-inline pt-1">
                                                     <input class="form-check-input" type="radio" value="number"
-                                                        name="column[{{ $key }}][additional_integer]" id="customRadio1"
+                                                        name="column[{{ $key }}][additional_integer]"
+                                                        id="customRadio1"
                                                         {{ $column->additional == 'number' ? 'checked' : '' }}>
                                                     <label class="custom-control-label" for="customRadio1">Number</label>
                                                 </div>
                                                 <div class="form-check form-check-inline pt-1">
                                                     <input class="form-check-input" type="radio" value="select"
-                                                        name="column[{{ $key }}][additional_integer]" id="customRadio2"
+                                                        name="column[{{ $key }}][additional_integer]"
+                                                        id="customRadio2"
                                                         {{ $column->additional == 'select' ? 'checked' : '' }}>
                                                     <label class="custom-control-label" for="customRadio2">Select</label>
                                                 </div>
@@ -93,9 +95,16 @@
                                                 <label for="example-text-input" class="form-control-label">Foreign Table
                                                     Name
                                                     <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text"
-                                                    name="column[{{ $key }}][additional_foreign]"
-                                                    value="{{ $column->additional }}">
+                                                <select class="form-select"
+                                                    name="column[{{ $key }}][additional_foreign]">
+                                                    <option value="">Select Foreign Table</option>
+                                                    <option value="users">users</option>
+                                                    @foreach ($existingMigrations as $migration)
+                                                        <option @if ($column->additional == $migration->table_name) selected @endif
+                                                            value="{{ $migration->table_name }}">
+                                                            {{ $migration->table_name }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -164,7 +173,7 @@
 
                 if ($(this).is('input[type="checkbox"]') || $(this).is('input[type="radio"]')) {
                     $(this).prop('checked', false);
-                } else if ($(this).is('select')) {
+                } else if ($(this).is('select[class="form-select column-type"]')) {
                     $(this).attr('onchange', `displayAdditional(this, ${columnIndex})`);
                 } else if ($(this).is('div[id="foreign-form-0"]')) {
                     $(this).attr('id', `foreign-form-${columnIndex}`);
