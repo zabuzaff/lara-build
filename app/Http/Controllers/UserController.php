@@ -36,7 +36,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->merge([
-            'password' => bcrypt('password')
+            'password' => 'password'
         ]);
 
         User::create($request->all());

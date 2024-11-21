@@ -27,6 +27,17 @@
                                         <input class="form-control" type="email" name="email" required>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Role <span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-select" name="role">
+                                            <option selected>Select Role</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="user">User</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="text-end mt-2">
                                 <button type="button" onclick="history.back()"

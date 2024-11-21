@@ -31,7 +31,9 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "LaravelFrontendPresets\\ArgonPreset\\": "presets/argon/src"
+            "LaravelFrontendPresets\\ArgonPreset\\": "presets/argon/src",
+            "LaraBuild\\Controllers\\": "lara-build/Controllers/",
+            "LaraBuild\\Models\\": "lara-build/Models/"
         }
     },
     "autoload-dev": {

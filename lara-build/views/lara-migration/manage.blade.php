@@ -17,9 +17,6 @@
                             <a href="{{ route('lara-migration.create') }}"
                                 class="btn btn-success btn-sm float-end mb-0 ms-2">Create
                                 Migration</a>
-                            <a href="#" onclick="migrate('{{ route('lara-migration.migrate') }}')"
-                                class="btn btn-primary btn-sm float-end mb-0">Run
-                                Migration</a>
                         </div>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">

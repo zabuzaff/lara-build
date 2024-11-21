@@ -32,6 +32,10 @@
                                             Email
                                         </th>
                                         <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Role
+                                        </th>
+                                        <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>
@@ -53,6 +57,10 @@
                                                     <p class="text-sm font-weight-bold mb-0">
                                                         {{ $data['email'] }}</p>
                                                 </td>
+                                                <td>
+                                                    <p class="text-sm font-weight-bold mb-0">
+                                                        {{ ucfirst($data['role']) }}</p>
+                                                </td>
                                                 <td class="align-middle text-end">
                                                     <div class="d-flex px-3 py-1 justify-content-center align-items-center">
                                                         <a class="text-info me-3"
@@ -71,7 +79,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="4" class="align-middle text-center">
+                                            <td colspan="5" class="align-middle text-center">
                                                 <p class="text-sm font-weight-bold mb-0">There is no user
                                                     available.
                                                 </p>

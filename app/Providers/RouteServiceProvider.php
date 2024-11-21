@@ -38,7 +38,7 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->prefix('lara-build')
-                ->group(base_path('routes/lara-build.php'));
+                ->group(base_path('lara-build/routes/lara-build.php'));
         });
     }
 }

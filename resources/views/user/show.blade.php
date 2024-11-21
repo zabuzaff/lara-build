@@ -23,6 +23,12 @@
                                     <p class="ms-1">{{ $data['email'] }}</p>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Role</label>
+                                    <p class="ms-1">{{ ucfirst($data['role']) }}</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="text-end mt-2">
                             <button onclick="history.back()" class="btn btn-secondary btn-md ms-auto">Back</button>

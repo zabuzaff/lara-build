@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace LaraBuild\Controllers;
 
-use App\Models\LaraMigration;
+use App\Http\Controllers\Controller;
+use LaraBuild\Models\LaraMigration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
@@ -28,7 +29,8 @@ class LaraBuildController extends Controller
         return view('lara-build.generate-crud', compact('datas'));
     }
 
-    public function bulkGenerate(Request $request) {
+    public function bulkGenerate(Request $request)
+    {
         foreach ($request->datas as $data) {
             $configs = new Request();
             $configs->merge($data);
@@ -189,8 +191,10 @@ class LaraBuildController extends Controller
         }
 
         $newEntry = [
+            "route" => Str::kebab(Str::singular(trim($table))),
             "name" => Str::kebab(Str::singular(trim($table))),
             "icon" => "fa-bolt",
+            "role" => ['admin']
         ];
 
         $duplicateFound = false;

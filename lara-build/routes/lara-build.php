@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\LaraBuildController;
-use App\Http\Controllers\LaraMigrationController;
+use LaraBuild\Controllers\LaraBuildController;
+use LaraBuild\Controllers\LaraMigrationController;
 use Illuminate\Support\Facades\Route;
 
 /*

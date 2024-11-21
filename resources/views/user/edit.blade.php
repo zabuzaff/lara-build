@@ -31,6 +31,19 @@
                                             value="{{ $data['email'] }}" required>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Role <span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-select" name="role" required>
+                                            <option selected>Select Role</option>
+                                            <option @if ($data['role'] == 'admin') selected @endif value="admin">Admin
+                                            </option>
+                                            <option @if ($data['role'] == 'user') selected @endif value="user">User
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="text-end mt-2">
                                 <a href="{{ route('user.index') }}" class="btn btn-secondary btn-md">Back</a>

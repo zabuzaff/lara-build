@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace LaraBuild\Controllers;
 
-use App\Models\LaraMigration;
-use App\Models\LaraMigrationColumn;
+use App\Http\Controllers\Controller;
+use LaraBuild\Models\LaraMigration;
+use LaraBuild\Models\LaraMigrationColumn;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
