@@ -199,7 +199,7 @@ class LaraBuildController extends Controller
 
         $duplicateFound = false;
         foreach ($existingData as $item) {
-            if ($item['name'] === $newEntry['name']) {
+            if ($item['route'] === $newEntry['route']) {
                 $duplicateFound = true;
                 break;
             }
