@@ -46,8 +46,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resources([
         'user' => UserController::class,
         //start-generated-resources
-        
-        		'post' => App\Http\Controllers\PostController::class,
-//end-generated-resources
+        //end-generated-resources
     ]);
 });
