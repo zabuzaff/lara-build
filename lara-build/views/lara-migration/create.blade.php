@@ -5,6 +5,11 @@
     <div class="container-fluid py-4">
         <div class="row mt-4">
             <div class="col-lg-12 mb-lg-0 mb-4">
+                @if (session()->has('success') || session()->has('error'))
+                    <div id="alert">
+                        @include('components.alert')
+                    </div>
+                @endif
                 <form role="form" method="POST" action={{ route('lara-migration.store') }} enctype="multipart/form-data">
                     @csrf
                     <div class="card mb-4">

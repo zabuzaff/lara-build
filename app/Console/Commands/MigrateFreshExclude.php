@@ -15,8 +15,19 @@ class MigrateFreshExclude extends Command
      * @var string
      */
     protected $signature = 'migrate:fresh-exclude';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
     protected $description = 'Run migrate:fresh but exclude specified tables';
 
+    /**
+     * Tables to exclude from the drop operation.
+     *
+     * @var array
+     */
     protected $excludedTables = [
         'failed_jobs',
         'lara_migration_columns',
@@ -26,14 +37,19 @@ class MigrateFreshExclude extends Command
         'users'
     ];
 
+    /**
+     * Execute the console command.
+     */
     public function handle()
     {
         $this->info('Dropping all tables except excluded ones...');
 
         $tables = DB::select('SHOW TABLES');
+        $database = DB::getDatabaseName();
 
         foreach ($tables as $table) {
-            $tableName = array_values((array) $table)[0];
+            $tableName = $table->{"Tables_in_{$database}"};
+
             if (!in_array($tableName, $this->excludedTables)) {
                 Schema::drop($tableName);
                 $this->info("Dropped table: $tableName");
@@ -42,8 +58,30 @@ class MigrateFreshExclude extends Command
             }
         }
 
+        $this->info('Clearing migration data for dropped tables...');
+
+        $migrationRecords = DB::table('migrations')->get();
+
+        foreach ($migrationRecords as $migrationRecord) {
+            $migrationName = $migrationRecord->migration;
+
+            $isExcluded = false;
+            foreach ($this->excludedTables as $excludedTable) {
+                if (str_contains($migrationName, $excludedTable)) {
+                    $isExcluded = true;
+                    break;
+                }
+            }
+
+            if (!$isExcluded) {
+                DB::table('migrations')->where('migration', $migrationName)->delete();
+                $this->info("Cleared migration data for: $migrationName");
+            }
+        }
+
+        $this->info('Running migrations...');
         Artisan::call('migrate', ['--force' => true]);
 
-        $this->info('Migration!');
+        $this->info('Migration process completed!');
     }
 }

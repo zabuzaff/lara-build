@@ -39,13 +39,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
     Route::get('/form-example', [HomeController::class, 'formExample'])->name('form-example');
-    Route::get('/manage', [PageController::class, 'manage'])->name('manage');
-    Route::get('/create', [PageController::class, 'create'])->name('create');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-    Route::resources([
-        'user' => UserController::class,
-        //start-generated-resources
-        //end-generated-resources
-    ]);
+    Route::resource('user', UserController::class);
+
+    include __DIR__ . '/generated-web-resources.php';
 });

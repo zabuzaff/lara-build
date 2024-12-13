@@ -23,7 +23,6 @@ foreach ($data->columns as $column) {
         echo "            \$table->" . $column->type . "('" . $column->name . "')" . ($column->is_nullable == 1 ? "->nullable()" : "") . ";\n";
     } else {
         echo "            \$table->" . 'unsignedBigInteger' . "('" . $column->name . "')" . ($column->is_nullable == 1 ? "->nullable()" : "") . ";\n";
-        echo "            \$table->" . $column->type . "('" . $column->name . "')" . "->references('id')->on('" . $column->additional . "')" . ";\n";
     }
 }
 

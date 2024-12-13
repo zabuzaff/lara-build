@@ -5,7 +5,7 @@
     <div class="container-fluid py-4">
         <div class="row mt-4">
             <div class="col-lg-12 mb-lg-0 mb-4">
-                @if (session()->has('success'))
+                @if (session()->has('success') || session()->has('error'))
                     <div id="alert">
                         @include('components.alert')
                     </div>
@@ -16,6 +16,9 @@
                         <div>
                             <a href="{{ route('lara-migration.create') }}"
                                 class="btn btn-success btn-sm float-end mb-0 ms-2">Create
+                                Migration</a>
+                            <a href="#" id="migrate-btn" onclick="migrate('{{ route('lara-migration.migrate') }}')"
+                                class="btn btn-primary btn-sm float-end mb-0 @if ($datas->isEmpty()) disabled @endif">Run
                                 Migration</a>
                         </div>
                     </div>
@@ -211,7 +214,7 @@
         function migrate(url) {
             Swal.fire({
                 title: 'Run migration?',
-                text: "This action will run migrate:fresh command on your database.",
+                text: "This will only migrate the generated migration.",
                 icon: 'info',
                 showCancelButton: true,
                 confirmButtonColor: '#000080',

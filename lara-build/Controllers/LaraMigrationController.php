@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class LaraMigrationController extends Controller
 {
@@ -27,7 +29,28 @@ class LaraMigrationController extends Controller
 
     public function store(Request $request)
     {
-        $migration = LaraMigration::create(['table_name' => $request->table_name]);
+        $validator = Validator::make($request->all(), [
+            'table_name' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    if (Str::singular($value) === $value) {
+                        $fail("The Table Name must be in plural form.");
+                    }
+
+                    if (!preg_match('/^[a-z0-9_]+$/', $value) || Str::snake($value) !== $value) {
+                        $fail("The Table Name must be in snake_case.");
+                    }
+                },
+            ]
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with('error', $validator->errors()->first());
+        }
+
+        $migration = LaraMigration::create(['table_name' => strtolower($request->table_name)]);
 
         foreach ($request->column as $column) {
             LaraMigrationColumn::create([
@@ -42,6 +65,7 @@ class LaraMigrationController extends Controller
         return redirect()->route('lara-migration.index')
             ->with('success', "Migration Successfully Created");
     }
+
 
     public function edit($id)
     {
@@ -76,6 +100,11 @@ class LaraMigrationController extends Controller
     {
         $laraMigration = LaraMigration::findOrFail($id);
 
+        $existingTimestamp = Carbon::parse($laraMigration->generated_at)->format('Y_m_d_His');
+        $existingPath = database_path("migrations/{$existingTimestamp}_create_{$laraMigration->table_name}_table.php");
+
+        if (file_exists($existingPath)) unlink($existingPath);
+
         LaraMigrationColumn::where('lara_migration_id', $laraMigration->id)->delete();
         $laraMigration->delete();
 
@@ -86,11 +115,22 @@ class LaraMigrationController extends Controller
     {
         $data = LaraMigration::with('columns')->findOrFail($request->id);
 
-        if ($data->generated_at != null) {
-            $existingTimestamp = Carbon::parse($data->generated_at)->format('Y_m_d_His');
-            $existingPath = database_path("migrations/{$existingTimestamp}_create_{$data->table_name}_table.php");
+        $existingTimestamp = Carbon::parse($data->generated_at)->format('Y_m_d_His');
+        $existingPath = database_path("migrations/{$existingTimestamp}_create_{$data->table_name}_table.php");
 
-            if (file_exists($existingPath)) unlink($existingPath);
+        $migrationFiles = scandir(database_path('migrations'));
+        $tableName = $data->table_name;
+
+        foreach ($migrationFiles as $file) {
+            if (str_contains($file, "create_{$tableName}_table")) {
+                $filePath = database_path("migrations/{$file}");
+
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+
+                break;
+            }
         }
 
         $timestamp = date('Y_m_d_His');

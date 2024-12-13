@@ -13,8 +13,7 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between mb-3">
                         <h6>Generate CRUD</h6>
-                        <a href="#"
-                            onclick="bulkGenerate('{{ route('lara-build.bulk-generate') }}')"
+                        <a href="#" onclick="bulkGenerate('{{ route('lara-build.bulk-generate') }}')"
                             class="btn btn-primary btn-sm float-end mb-0">Bulk Generate</a>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
@@ -53,6 +52,15 @@
                                                 <label
                                                     class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                                                     for="controller-all">Controller</label>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="api-all">
+                                                <label
+                                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                                                    for="api-all">Api</label>
                                             </div>
                                         </th>
                                         <th
@@ -94,6 +102,12 @@
                                                             id="controller-{{ $data }}">
                                                     </div>
                                                 </td>
+                                                <td>
+                                                    <div class="form-check ms-5">
+                                                        <input class="form-check-input api" type="checkbox"
+                                                            id="api-{{ $data }}">
+                                                    </div>
+                                                </td>
                                                 <td class="align-middle text-end">
                                                     <div class="d-flex px-3 py-1 justify-content-center align-items-center">
                                                         <a class="text-danger" href="#"
@@ -107,7 +121,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="6" class="align-middle text-center">
+                                            <td colspan="7" class="align-middle text-center">
                                                 <p class="text-sm font-weight-bold mb-0">There is no tables migrated.
                                                 </p>
                                             </td>
@@ -150,6 +164,14 @@
             }
         });
 
+        $('#api-all').change(function() {
+            if ($(this).is(':checked')) {
+                $('.api').prop('checked', true);
+            } else {
+                $('.api').prop('checked', false);
+            }
+        });
+
         function generate(url, table) {
             Swal.fire({
                 title: 'Generate table CRUD?',
@@ -175,6 +197,8 @@
                                     `#view-${table}`).val() : null,
                                 controller: ($(`#controller-${table}`).is(':checked')) ? $(
                                     `#controller-${table}`).val() : null,
+                                api: ($(`#api-${table}`).is(':checked')) ? $(
+                                    `#api-${table}`).val() : null,
                             })
                         })
                         .then(response => {
@@ -208,17 +232,19 @@
 
         function bulkGenerate(url) {
             const datas = [];
-            $('tbody tr').each(function () {
+            $('tbody tr').each(function() {
                 const tableName = $(this).find('td:nth-child(2) p').text().trim();
                 const model = $(this).find('.model').is(':checked') ? 'on' : null;
                 const view = $(this).find('.view').is(':checked') ? 'on' : null;
                 const controller = $(this).find('.controller').is(':checked') ? 'on' : null;
+                const api = $(this).find('.api').is(':checked') ? 'on' : null;
 
                 datas.push({
                     table: tableName,
                     model: model,
                     view: view,
-                    controller: controller
+                    controller: controller,
+                    api: api
                 });
             });
 

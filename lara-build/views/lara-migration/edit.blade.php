@@ -98,7 +98,8 @@
                                                 <select class="form-select"
                                                     name="column[{{ $key }}][additional_foreign]">
                                                     <option value="">Select Foreign Table</option>
-                                                    <option value="users">users</option>
+                                                    <option @if ($column->additional == 'users') selected @endif
+                                                        value="users">users</option>
                                                     @foreach ($existingMigrations as $migration)
                                                         <option @if ($column->additional == $migration->table_name) selected @endif
                                                             value="{{ $migration->table_name }}">

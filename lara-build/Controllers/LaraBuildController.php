@@ -59,6 +59,11 @@ class LaraBuildController extends Controller
             $this->configureRoute($request->table);
         }
 
+        if ($request->api == 'on') {
+            $this->generateApiController($request->table);
+            $this->configureRouteApi($request->table);
+        }
+
         return response()->json(['success' => true]);
     }
 
@@ -86,8 +91,9 @@ class LaraBuildController extends Controller
     {
         $data = LaraMigration::with('columns')->where('table_name', $table)->firstOrFail();
 
-        $filePath = base_path('routes/web.php');
-        $newRoute = "\t\t'" . Str::kebab(Str::singular(trim($data->table_name))) . "' => App\Http\Controllers\\" . Str::studly(Str::singular($data->table_name)) . "Controller::class,\n";
+        $filePath = base_path('routes/generated-web-resources.php');
+        $newRoute = "Route::resource('" . Str::kebab(Str::singular(trim($data->table_name))) . "', "
+            . "App\Http\Controllers\\" . Str::studly(Str::singular($data->table_name)) . "Controller::class);\n";
 
         $fileContent = file_get_contents($filePath);
 
@@ -101,7 +107,7 @@ class LaraBuildController extends Controller
             $generatedContent = substr($fileContent, $startPosition + strlen($startComment), $endPosition - ($startPosition + strlen($startComment)));
 
             if (strpos($generatedContent, trim($newRoute)) === false) {
-                $generatedContent .= "\n        $newRoute";
+                $generatedContent .= "$newRoute";
 
                 $fileContent = substr_replace(
                     $fileContent,
@@ -118,6 +124,56 @@ class LaraBuildController extends Controller
             }
         } else {
             info("Comment markers not found or incorrectly placed in web.php.");
+        }
+    }
+
+    private function generateApiController($table)
+    {
+        $data = LaraMigration::with('columns')->where('table_name', $table)->firstOrFail();
+
+        $fileName = Str::studly(Str::singular($data->table_name)) . "ApiController.php";
+        $filePath = app_path("Http/Controllers/{$fileName}");
+
+        File::put($filePath, view('stubs.api-controller', compact('data'))->render());
+    }
+
+    private function configureRouteApi($table)
+    {
+        $data = LaraMigration::with('columns')->where('table_name', $table)->firstOrFail();
+
+        $filePath = base_path('routes/generated-api-resources.php');
+        $newRoute = "Route::resource('" . Str::kebab(Str::singular(trim($data->table_name))) . "', "
+            . "App\Http\Controllers\\" . Str::studly(Str::singular($data->table_name)) . "ApiController::class);\n";
+
+        $fileContent = file_get_contents($filePath);
+
+        $startComment = '//start-generated-resources';
+        $endComment = '//end-generated-resources';
+
+        $startPosition = strpos($fileContent, $startComment);
+        $endPosition = strpos($fileContent, $endComment);
+
+        if ($startPosition !== false && $endPosition !== false && $endPosition > $startPosition) {
+            $generatedContent = substr($fileContent, $startPosition + strlen($startComment), $endPosition - ($startPosition + strlen($startComment)));
+
+            if (strpos($generatedContent, trim($newRoute)) === false) {
+                $generatedContent .= "$newRoute";
+
+                $fileContent = substr_replace(
+                    $fileContent,
+                    $generatedContent,
+                    $startPosition + strlen($startComment),
+                    $endPosition - ($startPosition + strlen($startComment))
+                );
+
+                file_put_contents($filePath, $fileContent);
+
+                info("API Route added successfully.");
+            } else {
+                info("API Route already exists.");
+            }
+        } else {
+            info("Comment markers not found or incorrectly placed in api.php.");
         }
     }
 
