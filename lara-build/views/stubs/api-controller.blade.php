@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Models\\" . Str::studly(Str::singular($data->table_name)) . ";
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 ";
 
@@ -20,41 +19,33 @@ foreach ($data->columns as $column) {
 echo implode("\n", array_unique($foreignModels)) . "\n";
 
 echo "
-class " . Str::studly(Str::singular($data->table_name)) . "ApiController extends Controller
+class " . Str::studly(Str::singular($data->table_name)) . "ApiController extends BaseApiController
 {
     public function index()
     {
+        DB::beginTransaction();
         try {
             \$data = " . Str::studly(Str::singular($data->table_name)) . "::paginate(10);
-            return response()->json([
-                'success' => true,
-                'message' => 'Data fetched successfully.',
-                'data' => \$data,
-            ], Response::HTTP_OK);
-        } catch (\Exception \$e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while fetching data.',
-                'error' => \$e->getMessage(),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+
+            DB::commit();
+            return \$this->success(\$data, '" . Str::studly(Str::plural($data->table_name)) . " fetched successfully.');
+        } catch (\\Exception \$e) {
+            DB::rollBack();
+            return \$this->error('An error occurred while fetching " . Str::plural($data->table_name) . ": ' . \$e->getMessage());
         }
     }
 
     public function show(\$id)
     {
+        DB::beginTransaction();
         try {
             \$data = " . Str::studly(Str::singular($data->table_name)) . "::findOrFail(\$id);
-            return response()->json([
-                'success' => true,
-                'message' => 'Data fetched successfully.',
-                'data' => \$data,
-            ], Response::HTTP_OK);
-        } catch (\Exception \$e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while fetching the data.',
-                'error' => \$e->getMessage(),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+
+            DB::commit();
+            return \$this->success(\$data, '" . Str::studly(Str::singular($data->table_name)) . " fetched successfully.');
+        } catch (\\Exception \$e) {
+            DB::rollBack();
+            return \$this->error('An error occurred while fetching the " . Str::singular($data->table_name) . ": ' . \$e->getMessage());
         }
     }
 
@@ -63,19 +54,12 @@ class " . Str::studly(Str::singular($data->table_name)) . "ApiController extends
         DB::beginTransaction();
         try {
             \$data = " . Str::studly(Str::singular($data->table_name)) . "::create(\$request->all());
+
             DB::commit();
-            return response()->json([
-                'success' => true,
-                'message' => '" . Str::studly(Str::singular($data->table_name)) . " successfully created.',
-                'data' => \$data,
-            ], Response::HTTP_CREATED);
-        } catch (\Exception \$e) {
+            return \$this->success(\$data, '" . Str::studly(Str::singular($data->table_name)) . " successfully created.');
+        } catch (\\Exception \$e) {
             DB::rollBack();
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while creating the resource.',
-                'error' => \$e->getMessage(),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return \$this->error('An error occurred while creating the " . Str::singular($data->table_name) . ": ' . \$e->getMessage());
         }
     }
 
@@ -85,19 +69,12 @@ class " . Str::studly(Str::singular($data->table_name)) . "ApiController extends
         try {
             \$data = " . Str::studly(Str::singular($data->table_name)) . "::findOrFail(\$id);
             \$data->update(\$request->all());
+
             DB::commit();
-            return response()->json([
-                'success' => true,
-                'message' => '" . Str::studly(Str::singular($data->table_name)) . " successfully updated.',
-                'data' => \$data,
-            ], Response::HTTP_OK);
-        } catch (\Exception \$e) {
+            return \$this->success(\$data, '" . Str::studly(Str::singular($data->table_name)) . " successfully updated.');
+        } catch (\\Exception \$e) {
             DB::rollBack();
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while updating the resource.',
-                'error' => \$e->getMessage(),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return \$this->error('An error occurred while updating the " . Str::singular($data->table_name) . ": ' . \$e->getMessage());
         }
     }
 
@@ -106,18 +83,12 @@ class " . Str::studly(Str::singular($data->table_name)) . "ApiController extends
         DB::beginTransaction();
         try {
             " . Str::studly(Str::singular($data->table_name)) . "::findOrFail(\$id)->delete();
+
             DB::commit();
-            return response()->json([
-                'success' => true,
-                'message' => '" . Str::studly(Str::singular($data->table_name)) . " successfully deleted.',
-            ], Response::HTTP_OK);
-        } catch (\Exception \$e) {
+            return \$this->success([], '" . Str::studly(Str::singular($data->table_name)) . " successfully deleted.');
+        } catch (\\Exception \$e) {
             DB::rollBack();
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while deleting the resource.',
-                'error' => \$e->getMessage(),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return \$this->error('An error occurred while deleting the " . Str::singular($data->table_name) . ": ' . \$e->getMessage());
         }
     }
 }

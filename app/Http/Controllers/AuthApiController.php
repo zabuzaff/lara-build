@@ -6,9 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
-class AuthApiController extends Controller
+class AuthApiController extends BaseApiController
 {
     public function register(Request $request)
     {
@@ -18,11 +17,7 @@ class AuthApiController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation error',
-                'errors' => $validator->errors(),
-            ], 422);
+            return $this->error('Validation error', 422, $validator->errors());
         }
 
         $user = User::create([
@@ -30,11 +25,7 @@ class AuthApiController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'User successfully registered',
-            'data' => $user,
-        ], 201);
+        return $this->success($user, 'User successfully registered');
     }
 
     public function login(Request $request)
@@ -45,32 +36,49 @@ class AuthApiController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation error',
-                'errors' => $validator->errors(),
-            ], 422);
+            return $this->error('Validation error', 422, $validator->errors());
         }
 
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid credentials',
-            ], 401);
+            return $this->error('Invalid credentials', 401);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Login successful',
-            'data' => [
-                'user' => $user,
-                'access_token' => $token,
-                'token_type' => 'Bearer',
-            ],
-        ], 200);
+        return $this->success([
+            'user' => $user,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ], 'Login successful');
+    }
+
+    public function logout()
+    {
+        $user = User::findOrFail(auth()->user()->id);
+        $user->currentAccessToken()->delete();
+
+        return $this->success([], 'Logout successful');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string|min:8',
+            'new_password' => 'required|string|min:8',
+        ]);
+
+        $user = User::findOrFail(auth()->user()->id);
+
+        if (!Hash::check($request->password, $user->password)) {
+            return $this->error('Invalid password');
+        }
+
+        $user->update([
+            'password' => $request->new_password,
+        ]);
+
+        return $this->success([], 'Password updated successfully');
     }
 }
