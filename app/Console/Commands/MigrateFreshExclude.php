@@ -31,6 +31,7 @@ class MigrateFreshExclude extends Command
     protected $excludedTables = [
         'failed_jobs',
         'lara_migration_columns',
+        'lara_migration_relations',
         'lara_migrations',
         'migrations',
         'password_reset_tokens',

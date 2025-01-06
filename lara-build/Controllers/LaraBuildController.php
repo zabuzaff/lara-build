@@ -16,6 +16,7 @@ class LaraBuildController extends Controller
         $excludedTables = [
             'failed_jobs',
             'lara_migration_columns',
+            'lara_migration_relations',
             'lara_migrations',
             'migrations',
             'password_reset_tokens',
@@ -55,11 +56,13 @@ class LaraBuildController extends Controller
         }
 
         if ($request->controller == 'on') {
+            $this->generateModel($request->table);
             $this->generateController($request->table);
             $this->configureRoute($request->table);
         }
 
         if ($request->api == 'on') {
+            $this->generateModel($request->table);
             $this->generateApiController($request->table);
             $this->configureRouteApi($request->table);
         }
@@ -69,7 +72,7 @@ class LaraBuildController extends Controller
 
     private function generateModel($table)
     {
-        $data = LaraMigration::with('columns')->where('table_name', $table)->firstOrFail();
+        $data = LaraMigration::with('columns', 'relations')->where('table_name', $table)->firstOrFail();
 
         $fileName = Str::studly(Str::singular($data->table_name)) . ".php";
         $filePath = app_path("Models/{$fileName}");

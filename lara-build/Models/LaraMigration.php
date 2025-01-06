@@ -18,4 +18,9 @@ class LaraMigration extends Model
     {
         return $this->hasMany(LaraMigrationColumn::class);
     }
+
+    public function relations()
+    {
+        return $this->hasMany(LaraMigrationRelation::class);
+    }
 }

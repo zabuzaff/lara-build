@@ -32,5 +32,24 @@ foreach ($data->columns as $column) {
     }
 }
 
+foreach ($data->relations as $relation) {
+    $relatedModel = Str::studly(Str::singular($relation->foreign_table));
+    if ($relation->type == 'hasOne') {
+        $functionName = Str::camel(Str::singular($relation->foreign_table));
+
+        echo "    public function $functionName()\n";
+        echo "    {\n";
+        echo "        return \$this->hasOne($relatedModel::class);\n";
+        echo "    }\n\n";
+    } else {
+        $functionName = Str::camel(Str::plural($relation->foreign_table));
+
+        echo "    public function $functionName()\n";
+        echo "    {\n";
+        echo "        return \$this->hasMany($relatedModel::class);\n";
+        echo "    }\n\n";
+    }
+}
+
 echo "}
 ";

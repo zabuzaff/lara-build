@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use LaraBuild\Models\LaraMigrationRelation;
+use Illuminate\Support\Facades\DB;
 
 class LaraMigrationController extends Controller
 {
@@ -29,47 +31,65 @@ class LaraMigrationController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'table_name' => [
-                'required',
-                'string',
-                function ($attribute, $value, $fail) {
-                    if (Str::singular($value) === $value) {
-                        $fail("The Table Name must be in plural form.");
+        try {
+            DB::beginTransaction();
+            $validator = Validator::make($request->all(), [
+                'table_name' => [
+                    'required',
+                    'string',
+                    function ($attribute, $value, $fail) {
+                        if (Str::singular($value) === $value) {
+                            $fail("The Table Name must be in plural form.");
+                        }
+
+                        if (!preg_match('/^[a-z0-9_]+$/', $value) || Str::snake($value) !== $value) {
+                            $fail("The Table Name must be in snake_case.");
+                        }
                     }
-
-                    if (!preg_match('/^[a-z0-9_]+$/', $value) || Str::snake($value) !== $value) {
-                        $fail("The Table Name must be in snake_case.");
-                    }
-                },
-            ]
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->with('error', $validator->errors()->first());
-        }
-
-        $migration = LaraMigration::create(['table_name' => strtolower($request->table_name)]);
-
-        foreach ($request->column as $column) {
-            LaraMigrationColumn::create([
-                'lara_migration_id' => $migration->id,
-                'name' => $column['name'],
-                'type' => $column['type'],
-                'additional' => $column['additional_integer'] ?? $column['additional_foreign'] ?? null,
-                'is_nullable' => $column['is_nullable'] ?? 0,
+                ]
             ]);
-        }
 
-        return redirect()->route('lara-migration.index')
-            ->with('success', "Migration Successfully Created");
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->with('error', $validator->errors()->first());
+            }
+            $migration = LaraMigration::create(['table_name' => strtolower($request->table_name)]);
+
+            foreach ($request->column as $column) {
+                LaraMigrationColumn::create([
+                    'lara_migration_id' => $migration->id,
+                    'name' => $column['name'],
+                    'type' => $column['type'],
+                    'additional' => $column['additional_integer'] ?? $column['additional_foreign'] ?? null,
+                    'is_nullable' => $column['is_nullable'] ?? 0,
+                ]);
+            }
+
+            foreach ($request->relation as $relation) {
+                if ($relation['type'] != '') {
+                    LaraMigrationRelation::create([
+                        'lara_migration_id' => $migration->id,
+                        'foreign_table' => $relation['foreign_table'],
+                        'type' => $relation['type'],
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('lara-migration.index')
+                ->with('success', "Migration Successfully Created");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', $e->getMessage());
+        }
     }
 
 
     public function edit($id)
     {
-        $data = LaraMigration::with('columns')->findOrFail($id);
+        $data = LaraMigration::with('columns', 'relations')->findOrFail($id);
         $existingMigrations = LaraMigration::all();
 
         return view('lara-migration.edit', compact('data', 'existingMigrations'));
@@ -77,23 +97,44 @@ class LaraMigrationController extends Controller
 
     public function update(Request $request, $id)
     {
-        $migration = LaraMigration::findOrFail($id);
-        $migration->update(['table_name' => $request->table_name]);
+        try {
+            DB::beginTransaction();
+            $migration = LaraMigration::findOrFail($id);
+            $migration->update(['table_name' => $request->table_name]);
 
-        LaraMigrationColumn::where('lara_migration_id', $migration->id)->delete();
+            LaraMigrationColumn::where('lara_migration_id', $migration->id)->delete();
 
-        foreach ($request->column as $column) {
-            LaraMigrationColumn::create([
-                'lara_migration_id' => $migration->id,
-                'name' => $column['name'],
-                'type' => $column['type'],
-                'additional' => $column['additional_integer'] ?? $column['additional_foreign'],
-                'is_nullable' => $column['is_nullable'] ?? 0,
-            ]);
+            foreach ($request->column as $column) {
+                LaraMigrationColumn::create([
+                    'lara_migration_id' => $migration->id,
+                    'name' => $column['name'],
+                    'type' => $column['type'],
+                    'additional' => $column['additional_integer'] ?? $column['additional_foreign'],
+                    'is_nullable' => $column['is_nullable'] ?? 0,
+                ]);
+            }
+
+            LaraMigrationRelation::where('lara_migration_id', $migration->id)->delete();
+
+            foreach ($request->relation as $relation) {
+                if ($relation['type'] != '') {
+                    LaraMigrationRelation::create([
+                        'lara_migration_id' => $migration->id,
+                        'foreign_table' => $relation['foreign_table'],
+                        'type' => $relation['type'],
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('lara-migration.index')
+                ->with('success', "Migration Successfully Updated");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', $e->getMessage());
         }
-
-        return redirect()->route('lara-migration.index')
-            ->with('success', "Migration Successfully Updated");
     }
 
     public function destroy($id)
@@ -106,6 +147,7 @@ class LaraMigrationController extends Controller
         if (file_exists($existingPath)) unlink($existingPath);
 
         LaraMigrationColumn::where('lara_migration_id', $laraMigration->id)->delete();
+        LaraMigrationRelation::where('lara_migration_id', $laraMigration->id)->delete();
         $laraMigration->delete();
 
         return response()->json(['success' => true]);
