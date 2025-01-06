@@ -178,8 +178,8 @@
                 text: "You will have to regenerate this table CRUD if new changes are made.",
                 icon: 'info',
                 showCancelButton: true,
-                confirmButtonColor: '#000080',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#2A2A2A',
+                cancelButtonColor: '#008080',
                 confirmButtonText: 'Yes, generate it!',
                 preConfirm: (input) => {
                     return fetch(url, {
@@ -253,8 +253,8 @@
                 text: "You will have to regenerate these table CRUD if new changes are made.",
                 icon: 'info',
                 showCancelButton: true,
-                confirmButtonColor: '#000080',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#2A2A2A',
+                cancelButtonColor: '#008080',
                 confirmButtonText: 'Yes, generate it!',
                 preConfirm: (input) => {
                     return fetch(url, {

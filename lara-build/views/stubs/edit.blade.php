@@ -92,7 +92,7 @@ foreach ($data->columns as $column) {
 echo "                            </div>\n";
 echo "                            <div class=\"text-end mt-2\">\n";
 echo "                                <button type=\"button\" onclick=\"history.back()\" class=\"btn btn-secondary btn-md ms-auto\">Back</button>\n";
-echo "                                <button type=\"submit\" class=\"btn btn-success btn-md ms-auto\">Save</button>\n";
+echo "                                <button type=\"submit\" class=\"btn btn-primary btn-md ms-auto\">Save</button>\n";
 echo "                            </div>\n";
 echo "                        </form>\n";
 echo "                    </div>\n";

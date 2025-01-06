@@ -25,7 +25,7 @@ class " . Str::studly(Str::singular($data->table_name)) . "ApiController extends
     {
         DB::beginTransaction();
         try {
-            \$data = " . Str::studly(Str::singular($data->table_name)) . "::paginate(10);
+            \$data = " . Str::studly(Str::singular($data->table_name)) . "::all();
 
             DB::commit();
             return \$this->success(\$data, '" . Str::studly(Str::plural($data->table_name)) . " fetched successfully.');

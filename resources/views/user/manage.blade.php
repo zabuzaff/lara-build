@@ -108,8 +108,8 @@
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#000080',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#2A2A2A',
+                cancelButtonColor: '#008080',
                 confirmButtonText: 'Yes, delete it!',
                 preConfirm: (input) => {
                     return fetch(url, {
