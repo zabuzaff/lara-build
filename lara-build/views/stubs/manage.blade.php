@@ -17,55 +17,42 @@ echo '                        <a href="{{ route(\'' . Str::kebab(Str::singular(t
 echo '                    </div>' . PHP_EOL;
 echo '                    <div class="card-body px-0 pt-0 pb-2">' . PHP_EOL;
 echo '                        <div class="table-responsive p-0">' . PHP_EOL;
-echo '                            <table class="table align-items-center mb-0">' . PHP_EOL;
+echo '                            <table class="table align-items-center mb-0" id="' . Str::kebab(Str::singular($data->table_name)) . '-datatable">' . PHP_EOL;
 echo '                                <thead>' . PHP_EOL;
 echo '                                    <tr>' . PHP_EOL;
-echo '                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>' . PHP_EOL;
+echo '                                        <th class="text-uppercase text-primary text-xxs font-weight-bolder opacity-7">#</th>' . PHP_EOL;
 
 foreach ($data->columns->take(5) as $column) {
-    echo '                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">' . $column->name . '</th>' . PHP_EOL;
+    echo '                                        <th class="text-uppercase text-primary text-xxs font-weight-bolder opacity-7">' . $column->name . '</th>' . PHP_EOL;
 }
 
-echo '                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>' . PHP_EOL;
+echo '                                        <th class="text-center text-uppercase text-primary text-xxs font-weight-bolder opacity-7">Action</th>' . PHP_EOL;
 echo '                                    </tr>' . PHP_EOL;
 echo '                                </thead>' . PHP_EOL;
 echo '                                <tbody>' . PHP_EOL;
-echo '                                    @if (!$datas->isEmpty())' . PHP_EOL;
-echo '                                        @foreach ($datas as $data)' . PHP_EOL;
-echo '                                            <tr>' . PHP_EOL;
-echo '                                                <td>' . PHP_EOL;
-echo '                                                    <p class="text-sm font-weight-bold mb-0 ms-3">' . PHP_EOL;
-echo '                                                        {{ $loop->iteration + ($datas->currentPage() - 1) * $datas->perPage() }}' . PHP_EOL;
-echo '                                                    </p>' . PHP_EOL;
-echo '                                                </td>' . PHP_EOL;
+echo '                                    @foreach ($datas as $data)' . PHP_EOL;
+echo '                                        <tr>' . PHP_EOL;
+echo '                                            <td>' . PHP_EOL;
+echo '                                                <p class="text-sm font-weight-bold mb-0">{{ $loop->iteration + ($datas->currentPage() - 1) * $datas->perPage() }}</p>' . PHP_EOL;
+echo '                                            </td>' . PHP_EOL;
 
 foreach ($data->columns->take(5) as $column) {
-    echo '                                                <td>' . PHP_EOL;
-    echo '                                                    <p class="text-sm mb-0">{{ $data->' . $column->name . ' }}</p>' . PHP_EOL;
-    echo '                                                </td>' . PHP_EOL;
+    echo '                                            <td>' . PHP_EOL;
+    echo '                                                <p class="text-sm mb-0">{{ $data->' . $column->name . ' }}</p>' . PHP_EOL;
+    echo '                                            </td>' . PHP_EOL;
 }
 
-echo '                                                <td class="align-middle text-end">' . PHP_EOL;
-echo '                                                    <div class="d-flex px-3 py-1 justify-content-center align-items-center">' . PHP_EOL;
-echo '                                                        <a class="text-primary me-3" href="{{ route(\'' . Str::kebab(Str::singular(trim($data->table_name))) . '.show\', [\'' . Str::snake(Str::singular($data->table_name)) . '\' => $data->id]) }}"><i class="fa fa-eye fa-lg" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Show"></i></a>' . PHP_EOL;
-echo '                                                        <a class="text-secondary me-3" href="{{ route(\'' . Str::kebab(Str::singular(trim($data->table_name))) . '.edit\', [\'' . Str::snake(Str::singular($data->table_name)) . '\' => $data->id]) }}"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"></i></a>' . PHP_EOL;
-echo '                                                        <a class="text-danger" href="#" onclick="deleteRecord(\'{{ route(\'' . Str::kebab(Str::singular(trim($data->table_name))) . '.destroy\', [\'' . Str::snake(Str::singular($data->table_name)) . '\' => $data->id]) }}\')"><i class="fa fa-trash-o fa-lg" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"></i></a>' . PHP_EOL;
-echo '                                                    </div>' . PHP_EOL;
-echo '                                                </td>' . PHP_EOL;
-echo '                                            </tr>' . PHP_EOL;
-echo '                                        @endforeach' . PHP_EOL;
-echo '                                    @else' . PHP_EOL;
-echo '                                        <tr>' . PHP_EOL;
-echo '                                            <td colspan="' . $data->columns->take(5)->count() + 2 .'" class="align-middle text-center">' . PHP_EOL;
-echo '                                                <p class="text-sm font-weight-bold mb-0">There is no ' . Str::singular($data->table_name) . ' available.</p>' . PHP_EOL;
+echo '                                            <td class="align-middle text-end">' . PHP_EOL;
+echo '                                                <div class="d-flex px-3 py-1 justify-content-center align-items-center">' . PHP_EOL;
+echo '                                                    <a class="text-primary me-3" href="{{ route(\'' . Str::kebab(Str::singular(trim($data->table_name))) . '.show\', [\'' . Str::snake(Str::singular($data->table_name)) . '\' => $data->id]) }}"><i class="fa fa-eye fa-lg" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Show"></i></a>' . PHP_EOL;
+echo '                                                    <a class="text-secondary me-3" href="{{ route(\'' . Str::kebab(Str::singular(trim($data->table_name))) . '.edit\', [\'' . Str::snake(Str::singular($data->table_name)) . '\' => $data->id]) }}"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"></i></a>' . PHP_EOL;
+echo '                                                    <a class="text-danger" href="#" onclick="deleteRecord(\'{{ route(\'' . Str::kebab(Str::singular(trim($data->table_name))) . '.destroy\', [\'' . Str::snake(Str::singular($data->table_name)) . '\' => $data->id]) }}\')"><i class="fa fa-trash-o fa-lg" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"></i></a>' . PHP_EOL;
+echo '                                                </div>' . PHP_EOL;
 echo '                                            </td>' . PHP_EOL;
 echo '                                        </tr>' . PHP_EOL;
-echo '                                    @endif' . PHP_EOL;
+echo '                                    @endforeach' . PHP_EOL;
 echo '                                </tbody>' . PHP_EOL;
 echo '                            </table>' . PHP_EOL;
-echo '                            <div class="px-3 pt-4">' . PHP_EOL;
-echo '                                {{ $datas->links() }}' . PHP_EOL;
-echo '                            </div>' . PHP_EOL;
 echo '                        </div>' . PHP_EOL;
 echo '                    </div>' . PHP_EOL;
 echo '                </div>' . PHP_EOL;
@@ -76,7 +63,23 @@ echo '    </div>' . PHP_EOL;
 echo '@endsection' . PHP_EOL;
 
 echo '@push(\'js\')' . PHP_EOL;
+echo '    <script src="{{ asset(\'assets/js/plugins/datatables.js\') }}"></script>' . PHP_EOL;
 echo '    <script>' . PHP_EOL;
+echo '        const ' . Str::camel(Str::singular($data->table_name)) . 'Datatable = new simpleDatatables.DataTable("#' . Str::kebab(Str::singular($data->table_name)) . '-datatable", {' . PHP_EOL;
+echo '            paging: true,' . PHP_EOL;
+echo '            perPage: 10,' . PHP_EOL;
+echo '            searchable: true,' . PHP_EOL;
+echo '            fixedHeight: true,' . PHP_EOL;
+echo '            columns: [{' . PHP_EOL;
+echo '                select: ' . $data->columns->take(5)->count() + 1 . ', // Action column index' . PHP_EOL;
+echo '                sortable: false' . PHP_EOL;
+echo '            }],' . PHP_EOL;
+echo '            labels: {' . PHP_EOL;
+echo '                placeholder: "Type to search...",' . PHP_EOL;
+echo '                noRows: "There is no ' . Str::singular($data->table_name) . ' available."' . PHP_EOL;
+echo '            }' . PHP_EOL;
+echo '        });' . PHP_EOL;
+
 echo '        function deleteRecord(url) {' . PHP_EOL;
 echo '            Swal.fire({' . PHP_EOL;
 echo '                title: \'Are you sure?\',' . PHP_EOL;
@@ -104,9 +107,7 @@ echo '                            }' . PHP_EOL;
 echo '                            return response.json()' . PHP_EOL;
 echo '                        })' . PHP_EOL;
 echo '                        .catch(error => {' . PHP_EOL;
-echo '                            Swal.showValidationMessage(' . PHP_EOL;
-echo '                                `Request failed: ${error}`' . PHP_EOL;
-echo '                            )' . PHP_EOL;
+echo '                            Swal.showValidationMessage(`Request failed: ${error}`)' . PHP_EOL;
 echo '                        })' . PHP_EOL;
 echo '                },' . PHP_EOL;
 echo '                allowOutsideClick: () => !Swal.isLoading()' . PHP_EOL;

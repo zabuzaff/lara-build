@@ -18,21 +18,18 @@
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
+                            <table class="table align-items-center mb-0" id="user-datatable">
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#
                                         </th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Name
                                         </th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Email
                                         </th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Role
                                         </th>
                                         <th
@@ -47,7 +44,7 @@
                                             @php $counter++; @endphp
                                             <tr>
                                                 <td>
-                                                    <p class="text-sm font-weight-bold mb-0 ms-3">{{ $counter }}</p>
+                                                    <p class="text-sm font-weight-bold mb-0">{{ $counter }}</p>
                                                 </td>
                                                 <td>
                                                     <p class="text-sm font-weight-bold mb-0">
@@ -88,9 +85,6 @@
                                     @endif
                                 </tbody>
                             </table>
-                            <div class="px-3 pt-4">
-                                {{ $datas->links() }}
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,7 +95,23 @@
 @endsection
 
 @push('js')
+    <script src="{{ asset('assets/js/plugins/datatables.js') }}"></script>
     <script>
+        const userDatatable = new simpleDatatables.DataTable("#user-datatable", {
+            paging: true,
+            perPage: 10,
+            searchable: true,
+            fixedHeight: true,
+            columns: [{
+                select: 4, //column-index
+                sortable: false
+            }],
+            labels: {
+                placeholder: "Type to search...",
+                noRows: "There is no user available."
+            }
+        });
+
         function deleteRecord(url) {
             Swal.fire({
                 title: 'Are you sure?',

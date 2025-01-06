@@ -23,7 +23,7 @@ class " . Str::studly(Str::singular($data->table_name)) . "Controller extends Co
 {
     public function index()
     {
-        \$datas = " . Str::studly(Str::singular($data->table_name)) . "::paginate(10);
+        \$datas = " . Str::studly(Str::singular($data->table_name)) . "::paginate();
         return view('" . Str::kebab(Str::singular(trim($data->table_name))) . ".manage', compact('datas'));
     }
 
