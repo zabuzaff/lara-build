@@ -13,7 +13,7 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between mb-3">
                         <h6>Manage Users</h6>
-                        <a href="{{ route('user.create') }}" class="btn btn-success btn-sm float-end mb-0">Add
+                        <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm float-end mb-0">Add
                             User</a>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
@@ -63,10 +63,10 @@
                                                 </td>
                                                 <td class="align-middle text-end">
                                                     <div class="d-flex px-3 py-1 justify-content-center align-items-center">
-                                                        <a class="text-info me-3"
+                                                        <a class="text-primary me-3"
                                                             href="{{ route('user.show', ['user' => $data['id']]) }}"><i
                                                                 class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
-                                                        <a class="text-success me-3"
+                                                        <a class="text-secondary me-3"
                                                             href="{{ route('user.edit', ['user' => $data['id']]) }}"><i
                                                                 class="fa fa-pencil-square-o fa-lg"
                                                                 aria-hidden="true"></i></a>

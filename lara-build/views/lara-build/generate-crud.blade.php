@@ -110,7 +110,7 @@
                                                 </td>
                                                 <td class="align-middle text-end">
                                                     <div class="d-flex px-3 py-1 justify-content-center align-items-center">
-                                                        <a class="text-danger" href="#"
+                                                        <a class="text-primary" href="#"
                                                             onclick="generate('{{ route('lara-build.generate') }}', '{{ $data }}')"><i
                                                                 class="fa fa-bolt fa-lg" aria-hidden="true"
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"

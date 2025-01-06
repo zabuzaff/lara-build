@@ -107,7 +107,7 @@
                             <div class="text-end">
                                 <button type="button" onclick="history.back()"
                                     class="btn btn-secondary btn-md ms-auto">Back</button>
-                                <button type="submit" class="btn btn-success btn-md ms-auto">Save</button>
+                                <button type="submit" class="btn btn-primary btn-md ms-auto">Save</button>
                             </div>
                         </div>
                 </form>

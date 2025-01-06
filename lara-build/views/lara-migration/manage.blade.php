@@ -15,7 +15,7 @@
                         <h6>Manage Migration</h6>
                         <div>
                             <a href="{{ route('lara-migration.create') }}"
-                                class="btn btn-success btn-sm float-end mb-0 ms-2">Create
+                                class="btn btn-secondary btn-sm float-end mb-0 ms-2">Create
                                 Migration</a>
                             <a href="#" id="migrate-btn" onclick="migrate('{{ route('lara-migration.migrate') }}')"
                                 class="btn btn-primary btn-sm float-end mb-0 @if ($datas->isEmpty()) disabled @endif">Run
@@ -77,7 +77,7 @@
                                                                 class="fa fa-cogs fa-lg" aria-hidden="true"
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 title="Generate"></i></a>
-                                                        <a class="text-success me-3"
+                                                        <a class="text-secondary me-3"
                                                             href="{{ route('lara-migration.edit', ['lara_migration' => $data->id]) }}"><i
                                                                 class="fa fa-pencil-square-o fa-lg" aria-hidden="true"
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"
@@ -122,8 +122,8 @@
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#000080',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#2A2A2A',
+                cancelButtonColor: '#008080',
                 confirmButtonText: 'Yes, delete it!',
                 preConfirm: (input) => {
                     return fetch(url, {
@@ -169,8 +169,8 @@
                 text: "You will have to regenerate this migration if new changes are made.",
                 icon: 'info',
                 showCancelButton: true,
-                confirmButtonColor: '#000080',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#2A2A2A',
+                cancelButtonColor: '#008080',
                 confirmButtonText: 'Yes, generate it!',
                 preConfirm: (input) => {
                     return fetch(url, {
@@ -214,11 +214,11 @@
         function migrate(url) {
             Swal.fire({
                 title: 'Run migration?',
-                text: "This will only migrate the generated migration.",
+                text: "This will only migrate:fresh the generated migration.",
                 icon: 'info',
                 showCancelButton: true,
-                confirmButtonColor: '#000080',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#2A2A2A',
+                cancelButtonColor: '#008080',
                 confirmButtonText: 'Yes, migrate it!',
                 preConfirm: (input) => {
                     return fetch(url, {

@@ -47,7 +47,7 @@
                             </div>
                             <div class="text-end mt-2">
                                 <a href="{{ route('user.index') }}" class="btn btn-secondary btn-md">Back</a>
-                                <button type="submit" class="btn btn-success btn-md ms-auto">Save</button>
+                                <button type="submit" class="btn btn-primary btn-md ms-auto">Save</button>
                             </div>
                         </form>
                     </div>
