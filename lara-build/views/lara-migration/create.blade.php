@@ -115,7 +115,7 @@
                                                     class="text-danger">*</span></label>
                                             <select class="form-select" name="relation[0][type]">
                                                 <option value="">Select Relation Type</option>
-                                                <option value="belongsTo">Has One</option>
+                                                <option value="hasOne">Has One</option>
                                                 <option value="hasMany">Has Many</option>
                                             </select>
                                         </div>
