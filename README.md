@@ -75,7 +75,11 @@ Follow these steps to set up the project:
     ```bash
     php artisan migrate:fresh --seed
     ```
-8. **Ready for use!**
+8. **Remove .git folder**
+    ```bash
+    rm -rf .git
+    ```
+9. **Ready for use!**
 
 ## Notes
 
